@@ -5,7 +5,7 @@ import string
 import peewee as pw
 from fastapi import FastAPI
 
-from fastapiwee.crud.viewsets import AutoFastAPIViewSet
+from fastapiwee import AutoFastAPIViewSet
 
 DB = pw.SqliteDatabase('/tmp/fastapiwee_example.db')
 
