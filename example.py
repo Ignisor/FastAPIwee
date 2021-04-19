@@ -68,4 +68,4 @@ app = FastAPI(on_startup=(create_dummy_data,), on_shutdown=(drop_dummy_data,))
 
 AutoFastAPIViewSet(TestModel, app)
 AutoFastAPIViewSet(ParentTestModel, app)
-AutoFastAPIViewSet(ChildTestModel, app)
+AutoFastAPIViewSet(ChildTestModel, app, actions={'create', 'retrieve'})
