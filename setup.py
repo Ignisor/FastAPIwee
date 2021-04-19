@@ -8,7 +8,7 @@ with open("VERSION", "r") as version_f:
     version = version_f.read()
 
 setuptools.setup(
-    name="permissions_helper",
+    name="FastAPIwee",
     version=version,
     author="German Gensetskyi",
     author_email="Ignis2497@gmail.com",
