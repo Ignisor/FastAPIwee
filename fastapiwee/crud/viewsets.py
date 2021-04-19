@@ -69,9 +69,9 @@ class AutoFastAPIViewSet(BaseFastAPIViewSet):
 
     def _get_api_router_params(self):
         params = super()._get_api_router_params()
-        params |= {
+        params.update({
             'prefix': '/' + re.sub(r'(?<!^)(?=[A-Z])', '_', self.model.__name__).lower()  # model name to snake_case
-        }
+        })
 
         return params
 

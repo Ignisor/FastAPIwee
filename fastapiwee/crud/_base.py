@@ -95,9 +95,9 @@ class BaseWriteFastAPIView(BaseReadFastAPIView, metaclass=ABCMeta):
             self._obj_data = data
 
         params = super()._get_api_route_params()
-        params |= {
+        params.update({
             'dependencies': [Depends(data_dependency)],
-        }
+        })
 
         return params
 
@@ -119,8 +119,8 @@ class BaseDeleteFastAPIView(BaseReadFastAPIView):
     def _get_api_route_params(self) -> dict:
         params = super()._get_api_route_params()
         del params['response_model']
-        params |= {
+        params.update({
             'response_class': Response
-        }
+        })
 
         return params

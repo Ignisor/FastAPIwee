@@ -21,7 +21,7 @@ setuptools.setup(
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",
     ],
-    python_requires='>=3.9',
+    python_requires='>=3.6',
     install_requires=[
         'fastapi==0.63.0',
         'pydantic==1.8.1',
