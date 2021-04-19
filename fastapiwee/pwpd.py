@@ -67,6 +67,7 @@ class PwPdMeta(ModelMetaclass):
         exclude_pk = getattr(cls.__config__, 'pw_exclude_pk', False)
         nest_fk = getattr(cls.__config__, 'pw_nest_fk', False)
         nest_backrefs = getattr(cls.__config__, 'pw_nest_backrefs', False)
+        all_optional = getattr(cls.__config__, 'pw_all_optional', False)
 
         allowed_fields = pw_fields - pw_exclude
 
@@ -109,6 +110,8 @@ class PwPdMeta(ModelMetaclass):
                 class_validators={},
                 config=cls.__config__,
             )
+            if all_optional:
+                cls.__fields__[name].required = False
 
         return cls
 
@@ -122,6 +125,8 @@ class PwPdGetterDict(GetterDict):
 
 
 class PwPdModel(PdBaseModel, metaclass=PwPdMeta):
+    __CACHE = dict()
+
     class Config:
         extra = 'forbid'
         orm_mode = True
@@ -129,16 +134,21 @@ class PwPdModel(PdBaseModel, metaclass=PwPdMeta):
 
     @classmethod
     def make_serializer(cls, model: Type[pw.Model], **config_values) -> Type['PwPdModel']:
-        class Config:
-            pw_model = model
+        name = model.__name__ + cls.__name__
 
-        for key, value in config_values.items():
-            if key == 'pw_model':
-                raise ValueError('`pw_model` can not be overriden with config values, use `model` argument')
+        if name not in cls.__CACHE:
+            class Config:
+                pw_model = model
 
-            setattr(Config, key, value)
+            for key, value in config_values.items():
+                if key == 'pw_model':
+                    raise ValueError('`pw_model` can not be overriden with config values, use `model` argument')
 
-        return type(model.__name__ + 'Serializer', (cls, ), {'Config': Config})
+                setattr(Config, key, value)
+
+            cls.__CACHE[name] = type(name, (cls, ), {'Config': Config})
+
+        return cls.__CACHE[name]
 
 
 class PwPdWriteModel(PwPdModel):
@@ -147,6 +157,12 @@ class PwPdWriteModel(PwPdModel):
         pw_exclude_pk = True
         pw_nest_fk = False
         pw_nest_backrefs = False
+
+
+class PwPdPartUpdateModel(PwPdWriteModel):
+    """Shortcut for update model config (nothing is required)"""
+    class Config:
+        pw_all_optional = True
 
 
 class PwPdModelFactory:
