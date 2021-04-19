@@ -1,3 +1,4 @@
+import string
 from typing import Any, List, Optional, Type
 
 import peewee as pw
@@ -8,6 +9,24 @@ from pydantic.main import (
     ModelMetaclass,
 )
 from pydantic.utils import GetterDict
+
+
+def letter_hash(obj: Any):
+    numbers = str(hash(obj))
+    negative = numbers.startswith('-')
+    numbers = numbers[negative:]
+
+    letters = ''
+
+    for i in range(0, len(numbers), 2):
+        num = int(numbers[i:i+2])
+        if num > len(string.ascii_letters):
+            letters += string.ascii_letters[int(numbers[i])]
+            letters += string.ascii_letters[int(numbers[i+1])]
+        else:
+            letters += string.ascii_letters[num]
+
+    return ''.join(letters)
 
 
 class _FieldTranslator:
@@ -134,7 +153,7 @@ class PwPdModel(PdBaseModel, metaclass=PwPdMeta):
 
     @classmethod
     def make_serializer(cls, model: Type[pw.Model], **config_values) -> Type['PwPdModel']:
-        name = model.__name__ + cls.__name__
+        name = model.__name__ + cls.__name__ + letter_hash(repr(config_values))
 
         if name not in cls.__CACHE:
             class Config:
