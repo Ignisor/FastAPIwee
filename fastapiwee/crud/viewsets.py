@@ -27,6 +27,8 @@ class BaseFastAPIViewSet:
         assert self._views, 'Views must be not null nor empty. ' \
                             'Either define `VIEWS` class-level constant variable or `views` argument on initialization.'
 
+        self._views = [view() for view in views]  # initialize views
+
         self._router = None
 
     @property
@@ -79,4 +81,4 @@ class AutoFastAPIViewSet(BaseFastAPIViewSet):
             action_view = self._ACTIONS_MAP[action_name]
             model_view = action_view.make_model_view(self.model)
 
-            yield model_view()
+            yield model_view
