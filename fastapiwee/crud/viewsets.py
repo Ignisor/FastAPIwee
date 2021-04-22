@@ -1,6 +1,5 @@
 import logging
 import re
-from abc import ABC
 from typing import List, Optional
 
 import peewee as pw
@@ -17,7 +16,7 @@ from fastapiwee.crud.views import (
 )
 
 
-class BaseFastAPIViewSet(ABC):
+class BaseFastAPIViewSet:
     VIEWS: Optional[List[FastAPIView]] = None
 
     def __init__(self, views: Optional[List[FastAPIView]] = None):
