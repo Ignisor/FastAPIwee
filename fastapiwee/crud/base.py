@@ -4,7 +4,7 @@ import re
 from fastapi.params import Depends
 from starlette.responses import Response
 from fastapiwee.pwpd import PwPdModelFactory
-from typing import Any, Optional, Union
+from typing import Any, Optional, Type, Union
 
 import peewee as pw
 import pydantic as pd
@@ -24,12 +24,15 @@ class FastAPIView(ABC):
     def __call__(self) -> Any:
         raise NotImplementedError
 
-    def _get_query(self):
+    def _get_query(self) -> pw.ModelSelect:
         return self.MODEL.select()
 
     @property
-    def response_model(self):
-        raise NotImplementedError
+    def response_model(self) -> pd.BaseModel:
+        if self._response_model is None:
+            raise ValueError('Response model is not defined')
+
+        return self._response_model
 
     def _get_api_route_params(self) -> dict:
         return {
@@ -47,7 +50,7 @@ class FastAPIView(ABC):
         )
 
     @classmethod
-    def make_model_view(cls, model):
+    def make_model_view(cls, model: pw.Model) -> Type['FastAPIView']:
         return type(model.__name__ + cls.__name__, (cls, ), {'MODEL': model})
 
 
@@ -81,7 +84,7 @@ class BaseWriteFastAPIView(BaseReadFastAPIView, metaclass=ABCMeta):
     def create(self) -> pw.Model:
         return self.MODEL.create(**self._obj_data.dict())
 
-    def update(self, pk: Any, partial=False) -> pw.Model:
+    def update(self, pk: Any, partial: bool = False) -> pw.Model:
         instance = self._get_instance(pk)
         for name, value in self._obj_data.dict(exclude_unset=partial).items():
             setattr(instance, name, value)
@@ -112,7 +115,7 @@ class BaseDeleteFastAPIView(BaseReadFastAPIView):
     def __call__(self, pk: Any):
         self.delete(pk)
 
-    def delete(self, pk):
+    def delete(self, pk: Any):
         instance = self._get_instance(pk)
         instance.delete_instance()
 
