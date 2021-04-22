@@ -6,7 +6,7 @@ from typing import List, Optional
 import peewee as pw
 from fastapi import APIRouter, FastAPI
 
-from fastapiwee.crud._base import FastAPIView
+from fastapiwee.crud.base import FastAPIView
 from fastapiwee.crud.views import (
     CreateFastAPIView,
     DeleteFastAPIView,

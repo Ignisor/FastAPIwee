@@ -1,7 +1,7 @@
 from fastapiwee.pwpd import PwPdPartUpdateModel
 from typing import Any, List
 
-from fastapiwee.crud._base import (BaseDeleteFastAPIView, BaseReadFastAPIView, BaseWriteFastAPIView)
+from fastapiwee.crud.base import (BaseDeleteFastAPIView, BaseReadFastAPIView, BaseWriteFastAPIView)
 
 
 # Read
