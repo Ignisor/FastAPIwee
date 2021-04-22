@@ -30,6 +30,7 @@ class ListFastAPIView(BaseReadFastAPIView):
 class CreateFastAPIView(BaseWriteFastAPIView):
     METHOD = 'POST'
     URL = '/'
+    STATUS_CODE = 201
 
     def __call__(self):
         return self.create()
