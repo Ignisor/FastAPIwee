@@ -5,14 +5,40 @@ FastAPI + PeeWee = <3
 
 Python >= 3.6 :snake:
 
-## Warning
-Library is in development right now.
-Documentation is in development as well.
-Refer to [example.py](example.py), source code and unit-tests for usage information.
-
 ## Installation
+
 ```python
 pip install FastAPIwee
 ```
 
 :tada:
+
+## Documentation
+
+Documentation can be found here: https://example.com
+
+## Development
+
+### Documentation
+
+Documentation is made with [MkDocs](https://www.mkdocs.org) and [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/).
+
+To run MkDocs server:
+
+- Go to mkdocs directory
+
+    ```bash
+    cd mkdocs
+    ```
+
+- Run server
+
+    ```bash
+    mkdocs serve
+    ```
+
+To build use:
+
+```bash
+mkdocs build
+```

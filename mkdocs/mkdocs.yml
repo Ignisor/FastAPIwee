@@ -1,0 +1,20 @@
+site_name: FastAPIwee
+site_description: FastAPI + PeeWee = <3
+
+theme:
+  name: material
+  palette:
+    primary: purple
+
+repo_url: https://github.com/Ignisor/FastAPIwee
+
+markdown_extensions:
+  - pymdownx.highlight
+  - pymdownx.superfences
+
+
+extra_css:
+- /media/css/termynal.css
+extra_javascript:
+- /media/js/termynal.js
+- /media/js/custom.js
