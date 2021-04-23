@@ -16,6 +16,9 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/Ignisor/FastAPIwee",
+    project_urls={
+        'Documentation': 'https://fastapiwee.qqmber.wtf',
+    },
     packages=setuptools.find_packages(exclude=('tests', )),
     classifiers=[
         "Programming Language :: Python :: 3",
@@ -26,5 +29,5 @@ setuptools.setup(
         'fastapi==0.63.0',
         'pydantic==1.8.1',
         'peewee==3.14.4',
-    ]
+    ],
 )

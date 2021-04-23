@@ -1,12 +1,11 @@
 import logging
 import re
-from abc import ABC
 from typing import List, Optional
 
 import peewee as pw
 from fastapi import APIRouter, FastAPI
 
-from fastapiwee.crud._base import FastAPIView
+from fastapiwee.crud.base import FastAPIView
 from fastapiwee.crud.views import (
     CreateFastAPIView,
     DeleteFastAPIView,
@@ -17,7 +16,7 @@ from fastapiwee.crud.views import (
 )
 
 
-class BaseFastAPIViewSet(ABC):
+class BaseFastAPIViewSet:
     VIEWS: Optional[List[FastAPIView]] = None
 
     def __init__(self, views: Optional[List[FastAPIView]] = None):
@@ -27,6 +26,8 @@ class BaseFastAPIViewSet(ABC):
         self._views = views or self.VIEWS
         assert self._views, 'Views must be not null nor empty. ' \
                             'Either define `VIEWS` class-level constant variable or `views` argument on initialization.'
+
+        self._views = [view() for view in views]  # initialize views
 
         self._router = None
 
@@ -80,4 +81,4 @@ class AutoFastAPIViewSet(BaseFastAPIViewSet):
             action_view = self._ACTIONS_MAP[action_name]
             model_view = action_view.make_model_view(self.model)
 
-            yield model_view()
+            yield model_view
