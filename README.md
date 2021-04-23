@@ -15,7 +15,7 @@ pip install FastAPIwee
 
 ## Documentation
 
-Documentation can be found here: https://example.com
+Documentation can be found here: https://fastapiwee.qqmber.wtf
 
 ## Development
 
