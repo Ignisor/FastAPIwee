@@ -1,4 +1,5 @@
 from abc import ABC, ABCMeta
+from fastapiwee.crud.exceptions import NotFoundExceptionHandler
 import re
 
 from fastapi.params import Depends
@@ -48,6 +49,8 @@ class FastAPIView(ABC):
         app.add_api_route(
             **self._get_api_route_params()
         )
+        if isinstance(app, FastAPI):
+            NotFoundExceptionHandler.add_to_app(app)
 
     @classmethod
     def make_model_view(cls, model: pw.Model) -> Type['FastAPIView']:

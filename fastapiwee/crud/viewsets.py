@@ -1,3 +1,4 @@
+from fastapiwee.crud.exceptions import NotFoundExceptionHandler
 import logging
 import re
 from typing import List, Optional
@@ -45,6 +46,7 @@ class BaseFastAPIViewSet:
 
     def add_to_app(self, app: FastAPI):
         app.include_router(self.router)
+        NotFoundExceptionHandler.add_to_app(app)
 
 
 class AutoFastAPIViewSet(BaseFastAPIViewSet):
