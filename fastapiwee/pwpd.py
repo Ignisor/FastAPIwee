@@ -79,7 +79,7 @@ class _FieldTranslator:
 
 
 class PwPdMeta(ModelMetaclass):
-    def __new__(mcs, name, bases, namespace, **kwargs):
+    def __new__(mcs, cls_name, bases, namespace, **kwargs):
         config = namespace.get('Config', BaseConfig)
         for base in reversed(bases):
             if issubclass(base, PdBaseModel) and base != PdBaseModel:
@@ -89,7 +89,7 @@ class PwPdMeta(ModelMetaclass):
         pw_model = getattr(config, 'pw_model', None)
 
         if pw_model is None:
-            return super().__new__(mcs, name, bases, namespace, **kwargs)
+            return super().__new__(mcs, cls_name, bases, namespace, **kwargs)
             # return cls
 
         pw_fields = set(getattr(
@@ -144,7 +144,7 @@ class PwPdMeta(ModelMetaclass):
 
         namespace_new = deep_update(namespace_new, namespace)
 
-        return super().__new__(mcs, name, bases, namespace_new, **kwargs)
+        return super().__new__(mcs, cls_name, bases, namespace_new, **kwargs)
 
 
 class PwPdGetterDict(GetterDict):
