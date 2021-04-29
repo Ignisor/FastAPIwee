@@ -1,7 +1,7 @@
 from fastapiwee.crud.exceptions import NotFoundExceptionHandler
 import logging
 import re
-from typing import List, Optional
+from typing import Type, List, Optional
 
 import peewee as pw
 from fastapi import APIRouter, FastAPI
@@ -61,7 +61,7 @@ class AutoFastAPIViewSet(BaseFastAPIViewSet):
 
     def __init__(
         self,
-        model: pw.Model,
+        model: Type[pw.Model],
         app: FastAPI,
         actions: set = ('retrieve', 'list', 'create', 'update', 'part_update', 'delete'),
     ):
