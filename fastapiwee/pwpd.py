@@ -197,7 +197,7 @@ class PwPdPartUpdateModel(PwPdWriteModel):
 
 
 class PwPdModelFactory:
-    def __init__(self, model: pw.ModelBase):
+    def __init__(self, model: Type[pw.Model]):
         self._model = model
         self._read_pd = None
         self._write_pd = None

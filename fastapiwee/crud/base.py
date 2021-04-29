@@ -13,7 +13,7 @@ from fastapi import FastAPI, APIRouter
 
 
 class FastAPIView(ABC):
-    MODEL: pw.Model
+    MODEL: Type[pw.Model]
     _RESPONSE_MODEL: Optional[pd.BaseModel] = None
     URL: str
     METHOD: str
@@ -22,7 +22,7 @@ class FastAPIView(ABC):
     def __init__(self):
         self._response_model = self._RESPONSE_MODEL
 
-    def __call__(self) -> Any:
+    def __call__(self, *args, **kwargs) -> Any:
         raise NotImplementedError
 
     def _get_query(self) -> pw.ModelSelect:
@@ -53,7 +53,7 @@ class FastAPIView(ABC):
             NotFoundExceptionHandler.add_to_app(app)
 
     @classmethod
-    def make_model_view(cls, model: pw.Model) -> Type['FastAPIView']:
+    def make_model_view(cls, model: Type[pw.Model]) -> Type['FastAPIView']:
         return type(model.__name__ + cls.__name__, (cls, ), {'MODEL': model})
 
 
@@ -65,7 +65,7 @@ class BaseReadFastAPIView(FastAPIView, metaclass=ABCMeta):
 
         return self._response_model
 
-    def _get_instance(self, pk: Any) -> pw.Model:
+    def _get_instance(self, pk: Any) -> Type[pw.Model]:
         return self._get_query().where(self.MODEL._meta.primary_key == pk).get()
 
 
