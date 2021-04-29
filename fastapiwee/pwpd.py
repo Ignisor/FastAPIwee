@@ -1,5 +1,6 @@
 import string
 from collections.abc import Mapping
+from uuid import UUID
 from typing import Any, List, Optional, Type
 
 import peewee as pw
@@ -44,6 +45,7 @@ class _FieldTranslator:
         pw.IntegerField: int,
         pw.FloatField: float,
         pw.BooleanField: bool,
+        pw.UUIDField: UUID,
     }
 
     def __init__(self, field: pw.Field, nest_fk: bool = False, all_optional: bool = False):
